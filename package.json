@@ -1,0 +1,19 @@
+{
+  "name": "build-platform",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@8.15.5",
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "test": "turbo test",
+    "format": "turbo format"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "18.6.1",
+    "@commitlint/config-conventional": "18.6.1",
+    "husky": "8.0.3",
+    "turbo": "1.13.2"
+  }
+}

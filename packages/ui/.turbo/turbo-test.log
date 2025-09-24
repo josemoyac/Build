@@ -1,0 +1,23 @@
+
+> @build/ui@0.1.0 test /workspace/Build/packages/ui
+> vitest run
+
+
+[7m[1m[36m RUN [39m[22m[27m [36mv1.3.1[39m [90m/workspace/Build/packages/ui[39m
+
+[?25l [90m·[39m [2mtest/[22mbasic[2m.spec.tsx[22m[2m (1)[22m
+   [90m·[39m PrimaryButton[2m (1)[22m
+     [90m·[39m composes className
+[?25l[2K[1A[2K[1A[2K[1A[2K[G [32m✓[39m [2mtest/[22mbasic[2m.spec.tsx[22m[2m (1)[22m
+   [32m✓[39m PrimaryButton[2m (1)[22m
+     [32m✓[39m composes className
+[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[?25l[2K[1A[2K[1A[2K[1A[2K[G [32m✓[39m [2mtest/[22mbasic[2m.spec.tsx[22m[2m (1)[22m
+   [32m✓[39m PrimaryButton[2m (1)[22m
+     [32m✓[39m composes className
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m   Start at [22m 14:47:56
+[2m   Duration [22m 5.71s[2m (transform 763ms, setup 0ms, collect 1.06s, tests 109ms, environment 2ms, prepare 968ms)[22m
+
+[?25h

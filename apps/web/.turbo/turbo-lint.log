@@ -1,0 +1,5 @@
+
+> web@0.1.0 lint /workspace/Build/apps/web
+> next lint
+
+[32m✔ No ESLint warnings or errors[39m

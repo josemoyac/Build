@@ -1,0 +1,9 @@
+image:
+  repository: build/api
+  tag: latest
+webImage:
+  repository: build/web
+  tag: latest
+service:
+  type: ClusterIP
+  port: 80
