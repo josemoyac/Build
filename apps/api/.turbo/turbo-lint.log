@@ -1,0 +1,4 @@
+
+> api@0.1.0 lint /workspace/Build/apps/api
+> eslint --ext .ts src
+

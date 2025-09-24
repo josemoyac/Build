@@ -1,0 +1,15 @@
+node_modules
+.pnpm-store
+.env
+.env.*
+dist
+.build
+coverage
+.DS_Store
+.idea
+.vscode
+.next
+apps/web/.next
+apps/api/dist
+prisma/generated
+playwright-report

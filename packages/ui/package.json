@@ -1,0 +1,32 @@
+{
+  "name": "@build/ui",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup src/index.ts",
+    "lint": "eslint --ext .ts,.tsx src",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "clsx": "1.2.1"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "18.2.28",
+    "@types/react-dom": "18.2.12",
+    "@typescript-eslint/eslint-plugin": "6.21.0",
+    "@typescript-eslint/parser": "6.21.0",
+    "eslint": "8.56.0",
+    "eslint-config-prettier": "9.1.0",
+    "eslint-plugin-import": "2.29.1",
+    "eslint-plugin-react": "7.33.2",
+    "tsup": "7.2.0",
+    "typescript": "5.3.3",
+    "vitest": "1.3.1"
+  }
+}

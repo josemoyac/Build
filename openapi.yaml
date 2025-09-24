@@ -1,0 +1,462 @@
+openapi: 3.0.3
+info:
+  title: Build API
+  version: 0.1.0
+  description: Plataforma de licitaciones para construcción
+servers:
+  - url: http://localhost:4000
+paths:
+  /auth/register:
+    post:
+      summary: Registrar usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterDto'
+      responses:
+        '201':
+          description: Usuario creado
+  /auth/login:
+    post:
+      summary: Iniciar sesión
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginDto'
+      responses:
+        '200':
+          description: Tokens de acceso
+  /auth/refresh:
+    post:
+      summary: Renovar token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshDto'
+      responses:
+        '200':
+          description: Token renovado
+  /tenants:
+    get:
+      summary: Listar tenants
+      responses:
+        '200':
+          description: OK
+    post:
+      summary: Crear tenant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTenantDto'
+      responses:
+        '201':
+          description: Creado
+  /tenders:
+    get:
+      summary: Listar licitaciones
+      parameters:
+        - in: query
+          name: zone
+          schema:
+            type: string
+        - in: query
+          name: tradeType
+          schema:
+            type: string
+        - in: query
+          name: status
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+    post:
+      summary: Crear licitación
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTenderDto'
+      responses:
+        '201':
+          description: Creado
+  /tenders/{id}:
+    get:
+      summary: Obtener licitación
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /tenders/{id}/publish:
+    post:
+      summary: Publicar licitación
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PublishTenderDto'
+      responses:
+        '200':
+          description: OK
+  /tenders/{id}/close:
+    post:
+      summary: Cerrar licitación
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /tenders/{id}/open:
+    post:
+      summary: Reabrir licitación
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /tenders/{id}/evaluate:
+    post:
+      summary: Evaluar licitación
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EvaluateTenderDto'
+      responses:
+        '200':
+          description: OK
+  /tenders/{id}/award:
+    post:
+      summary: Adjudicar licitación
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                vendorId:
+                  type: string
+      responses:
+        '200':
+          description: OK
+  /tenders/{id}/report:
+    get:
+      summary: Informe de licitación
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /tenders/{id}/bids:
+    post:
+      summary: Crear o actualizar oferta
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertBidDto'
+      responses:
+        '200':
+          description: OK
+    get:
+      summary: Listar ofertas
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /bids/{id}:
+    get:
+      summary: Obtener oferta
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /budgets:
+    get:
+      summary: Listar presupuestos
+      responses:
+        '200':
+          description: OK
+    post:
+      summary: Crear presupuesto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBudgetDto'
+      responses:
+        '201':
+          description: Creado
+  /budgets/{id}:
+    get:
+      summary: Obtener presupuesto
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /budgets/{id}/import/bc3:
+    post:
+      summary: Importar BC3
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: OK
+  /erp/connections:
+    post:
+      summary: Crear conexión ERP
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErpConnectionDto'
+      responses:
+        '201':
+          description: Creado
+  /erp/{id}/push/award:
+    post:
+      summary: Exportar adjudicación
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                awardId:
+                  type: string
+      responses:
+        '200':
+          description: OK
+  /erp/{id}/test:
+    post:
+      summary: Probar conexión
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /erp/inbound/{id}:
+    post:
+      summary: Webhook entrante
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /audit:
+    get:
+      summary: Auditoría
+      parameters:
+        - in: query
+          name: entity
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    RegisterDto:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+        tenantId:
+          type: string
+        companyId:
+          type: string
+        role:
+          type: string
+    LoginDto:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    RefreshDto:
+      type: object
+      properties:
+        refreshToken:
+          type: string
+    CreateTenantDto:
+      type: object
+      properties:
+        name:
+          type: string
+        locale:
+          type: string
+    CreateTenderDto:
+      type: object
+      properties:
+        tenantId:
+          type: string
+        companyId:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        zone:
+          type: string
+        tradeType:
+          type: string
+        budgetId:
+          type: string
+        openingAt:
+          type: string
+          format: date-time
+        closingAt:
+          type: string
+          format: date-time
+        amount:
+          type: number
+    PublishTenderDto:
+      type: object
+      properties:
+        publishedAt:
+          type: string
+          format: date-time
+    EvaluateTenderDto:
+      type: object
+      properties:
+        criteria:
+          type: object
+          additionalProperties:
+            type: number
+    UpsertBidDto:
+      type: object
+      properties:
+        vendorId:
+          type: string
+        lines:
+          type: array
+          items:
+            type: object
+            properties:
+              tenderLineId:
+                type: string
+              unitPrice:
+                type: number
+    CreateBudgetDto:
+      type: object
+      properties:
+        tenantId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+    ErpConnectionDto:
+      type: object
+      properties:
+        tenantId:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        config:
+          type: object

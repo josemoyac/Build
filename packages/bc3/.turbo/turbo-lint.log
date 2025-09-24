@@ -1,0 +1,4 @@
+
+> @build/bc3@0.1.0 lint /workspace/Build/packages/bc3
+> eslint --ext .ts src
+

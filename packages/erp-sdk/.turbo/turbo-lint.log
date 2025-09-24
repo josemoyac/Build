@@ -1,0 +1,4 @@
+
+> @build/erp-sdk@0.1.0 lint /workspace/Build/packages/erp-sdk
+> eslint --ext .ts src
+

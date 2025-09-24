@@ -1,0 +1,213 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Tenant {
+  id        String     @id @default(cuid())
+  name      String
+  locale    String     @default("es-ES")
+  companies Company[]
+  vendors   Vendor[]
+  users     User[]
+  budgets   Budget[]
+  tenders   Tender[]
+  createdAt DateTime   @default(now())
+}
+
+model Company {
+  id        String   @id @default(cuid())
+  name      String
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
+  tenantId  String
+  tenders   Tender[]
+  users     User[]
+  createdAt DateTime @default(now())
+}
+
+model Vendor {
+  id        String   @id @default(cuid())
+  name      String
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
+  tenantId  String
+  bids      Bid[]
+  createdAt DateTime @default(now())
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  tenant       Tenant   @relation(fields: [tenantId], references: [id])
+  tenantId     String
+  company      Company? @relation(fields: [companyId], references: [id])
+  companyId    String?
+  role         String
+  createdAt    DateTime @default(now())
+}
+
+model TradeType {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+}
+
+model Zone {
+  id        String   @id @default(cuid())
+  name      String
+  path      String
+  createdAt DateTime @default(now())
+}
+
+model Currency {
+  code      String   @id
+  name      String
+  createdAt DateTime @default(now())
+}
+
+model UnitOfMeasure {
+  id        String   @id @default(cuid())
+  code      String   @unique
+  name      String
+  createdAt DateTime @default(now())
+}
+
+model Tax {
+  id        String   @id @default(cuid())
+  name      String
+  rate      Float
+  createdAt DateTime @default(now())
+}
+
+model Budget {
+  id          String    @id @default(cuid())
+  tenant      Tenant    @relation(fields: [tenantId], references: [id])
+  tenantId    String
+  name        String
+  description String
+  chapters    Chapter[]
+  tenders     Tender[]
+  createdAt   DateTime  @default(now())
+}
+
+model Chapter {
+  id        String  @id @default(cuid())
+  budget    Budget  @relation(fields: [budgetId], references: [id])
+  budgetId  String
+  code      String
+  name      String
+  items     Item[]
+}
+
+model Item {
+  id         String        @id @default(cuid())
+  chapter    Chapter       @relation(fields: [chapterId], references: [id])
+  chapterId  String
+  code       String
+  name       String
+  unit       String
+  quantity   Float
+  price      Float
+  measurements Measurement[]
+  tenderLines TenderLine[]
+}
+
+model Measurement {
+  id        String @id @default(cuid())
+  item      Item   @relation(fields: [itemId], references: [id])
+  itemId    String
+  description String
+  quantity  Float
+}
+
+model Tender {
+  id            String        @id @default(cuid())
+  tenant        Tenant        @relation(fields: [tenantId], references: [id])
+  tenantId      String
+  company       Company       @relation(fields: [companyId], references: [id])
+  companyId     String
+  budget        Budget?       @relation(fields: [budgetId], references: [id])
+  budgetId      String?
+  title         String
+  description   String
+  zone          String
+  tradeType     String
+  status        String
+  publishedAt   DateTime?
+  openingAt     DateTime?
+  closingAt     DateTime?
+  currency      String
+  amount        Float         @default(0)
+  tenderLines   TenderLine[]
+  bids          Bid[]
+  awards        Award[]
+}
+
+model TenderLine {
+  id          String   @id @default(cuid())
+  tender      Tender   @relation(fields: [tenderId], references: [id])
+  tenderId    String
+  item        Item?    @relation(fields: [itemId], references: [id])
+  itemId      String?
+  description String
+  quantity    Float
+  unit        String
+  targetPrice Float?
+  bidLines    BidLine[]
+}
+
+model Bid {
+  id         String   @id @default(cuid())
+  tender     Tender   @relation(fields: [tenderId], references: [id])
+  tenderId   String
+  vendor     Vendor   @relation(fields: [vendorId], references: [id])
+  vendorId   String
+  status     String
+  total      Float    @default(0)
+  lines      BidLine[]
+  createdAt  DateTime @default(now())
+}
+
+model BidLine {
+  id         String   @id @default(cuid())
+  bid        Bid      @relation(fields: [bidId], references: [id])
+  bidId      String
+  tenderLine TenderLine @relation(fields: [tenderLineId], references: [id])
+  tenderLineId String
+  unitPrice  Float
+  total      Float
+}
+
+model Award {
+  id        String   @id @default(cuid())
+  tender    Tender   @relation(fields: [tenderId], references: [id])
+  tenderId  String
+  vendor    Vendor   @relation(fields: [vendorId], references: [id])
+  vendorId  String
+  amount    Float
+  createdAt DateTime @default(now())
+}
+
+model AuditEvent {
+  id          String   @id @default(cuid())
+  tenantId    String
+  entity      String
+  entityId    String
+  action      String
+  performedBy String
+  payload     Json
+  createdAt   DateTime @default(now())
+}
+
+model ErpConnection {
+  id        String   @id @default(cuid())
+  tenantId  String
+  name      String
+  type      String
+  config    Json
+  createdAt DateTime @default(now())
+}

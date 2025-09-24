@@ -1,0 +1,4 @@
+
+> @build/ui@0.1.0 lint /workspace/Build/packages/ui
+> eslint --ext .ts,.tsx src
+

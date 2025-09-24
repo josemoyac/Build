@@ -1,0 +1,13 @@
+
+> web@0.1.0 test /workspace/Build/apps/web
+> playwright test
+
+[2m[WebServer] [22m [33m[1m⚠[22m[39m Invalid next.config.mjs options detected: 
+[2m[WebServer] [22m [33m[1m⚠[22m[39m     Unrecognized key(s) in object: 'appDir' at "experimental"
+ [33m[1m⚠[22m[39m See more info here: https://nextjs.org/docs/messages/invalid-next-config
+
+[2mRunning [22m1[2m test using [22m1[2m worker[22m
+
+     [2m1 [22m[2mmain.spec.ts:16:1 › homepage has hero section[22m
+[1A[2K[0G  [32m-[39m  [2m1 [22m[36mmain.spec.ts:16:1 › homepage has hero section[39m[1E
+[33m  1 skipped[39m
